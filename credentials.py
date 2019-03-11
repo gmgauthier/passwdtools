@@ -17,7 +17,7 @@ class Credentials:
         return self.keys
 
     def add_key(self, service, username, password):
-        
+
         pass
 
     def get_key_by_service(self, service):
