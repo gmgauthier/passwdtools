@@ -12,13 +12,22 @@ class Credentials:
     def read_cred(self, service):
         return self.creds[service]
 
+    def expose_cred(self, service):
+        decrypted = {
+            "username": self.creds[service]["username"],
+            "password": Password().decrypt(
+                self.creds[service]["password"].encode()
+            )
+        }
+        return decrypted
+
     def create_cred(self, service, username, password=None):
         if password is None:
             password = Password.generate(mn=64)
 
         new_entry = {
             "username": username,
-            "password": Password().encrypt(password)
+            "password": Password().encrypt(password).decode()
         }
         self.creds[service] = new_entry
         Pwdfile().write(self.creds)
