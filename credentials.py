@@ -1,49 +1,39 @@
-import hashlib
-import json
-import uuid
-from random import randint
-from secrets import choice
-from string import ascii_letters, digits
-
-from configuration import Configuration
+from pwdfile import Pwdfile
 
 
 class Credentials:
     def __init__(self):
-        with open(Configuration().get_keyfilename(), mode="r+") as keydata:
-            self.keys = json.load(keydata)
+        self.creds = Pwdfile().read()
 
     def get_keys(self):
-        return self.keys
+        return self.creds
 
-    def add_key(self, service, username, password):
+    def read_key(self, service):
+        return self.creds[service]
 
-        pass
+    def create_key(self, service, username, password):
+        new_entry = {
+            "username": username,
+            "password": password
+        }
+        self.creds[service] = new_entry
+        Pwdfile().write(self.creds)
 
-    def get_key_by_service(self, service):
-        return self.keys[service]
+    def update_key(self, service, username=None, password=None):
+        current_entry = self.creds[service]
+        if username is None and password is not None:
+            self.creds[service] = {
+                "username": current_entry["username"],
+                "password": password
+            }
+        elif username is not None and password is None:
+            self.creds[service] = {
+                    "username": username,
+                    "password": current_entry["password"]
+                }
+        Pwdfile().write(self.creds)
 
-    @staticmethod
-    def gen_password(mn=12, mx=64):
-        return [
-            ''.join(choice(ascii_letters + digits)
-                    for _ in range(randint(mn, mx)))
-        ]
+    def delete_key(self, service):
+        del self.creds[service]
+        Pwdfile().write(self.creds)
 
-    @staticmethod
-    def hash_password(password):
-        salt = uuid.uuid4().hex
-        return hashlib.sha512(
-            salt.encode() + password.encode()).hexdigest() + ':' + salt
-
-    @staticmethod
-    def check_password(hashed_password, user_password):
-        password, salt = hashed_password.split(':')
-        return password == hashlib.sha512(
-            salt.encode() + user_password.encode()).hexdigest()
-
-    @staticmethod
-    def dsa_encode(password):
-        hash_object = hashlib.new('DSA')
-        hash_object.update(password)
-        return hash_object.h

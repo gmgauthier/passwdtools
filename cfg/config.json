@@ -1,3 +1,4 @@
 {
-  "keyfile":"keyfile.json"
+  "pwdfile":"pwdfile.json",
+  "secret": null
 }
