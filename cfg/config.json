@@ -1,4 +1,1 @@
-{
-  "pwdfile":"pwdfile.json",
-  "secret": null
-}
+{"pwdfilename": "pwdfile.json", "secret": null}

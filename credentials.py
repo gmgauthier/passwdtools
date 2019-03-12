@@ -5,13 +5,13 @@ class Credentials:
     def __init__(self):
         self.creds = Pwdfile().read()
 
-    def get_keys(self):
+    def get_creds(self):
         return self.creds
 
-    def read_key(self, service):
+    def read_cred(self, service):
         return self.creds[service]
 
-    def create_key(self, service, username, password):
+    def create_cred(self, service, username, password):
         new_entry = {
             "username": username,
             "password": password
@@ -19,7 +19,7 @@ class Credentials:
         self.creds[service] = new_entry
         Pwdfile().write(self.creds)
 
-    def update_key(self, service, username=None, password=None):
+    def update_cred(self, service, username=None, password=None):
         current_entry = self.creds[service]
         if username is None and password is not None:
             self.creds[service] = {
@@ -33,7 +33,7 @@ class Credentials:
                 }
         Pwdfile().write(self.creds)
 
-    def delete_key(self, service):
+    def delete_cred(self, service):
         del self.creds[service]
         Pwdfile().write(self.creds)
 

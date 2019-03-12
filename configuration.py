@@ -8,14 +8,16 @@ class Config:
     def get_pwdfilename(self):
         return self.data["pwdfile"]
 
-    def set_pwdfilename(self):
-        pass
+    def set_pwdfilename(self, pwdfilename):
+        self.data["pwdfilename"] = pwdfilename
+        self.write(self.data)
 
     def get_secret(self):
         return self.data["secret"]
 
     def set_secret(self, secret):
-        pass
+        self.data["secret"] = secret
+        self.write(self.data)
 
     @staticmethod
     def read():
