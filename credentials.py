@@ -28,7 +28,7 @@ class Credentials:
         if username is None and password is not None:
             self.creds[service] = {
                 "username": current_entry["username"],
-                "password": Password().encrypt(password)
+                "password": Password().encrypt(password).decode()
             }
         elif username is not None and password is None:
             self.creds[service] = {

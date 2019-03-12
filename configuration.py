@@ -6,7 +6,7 @@ class Config:
         self.data = self.read()
 
     def get_pwdfilename(self):
-        return self.data["pwdfile"]
+        return self.data["pwdfilename"]
 
     def set_pwdfilename(self, pwdfilename):
         self.data["pwdfilename"] = pwdfilename
