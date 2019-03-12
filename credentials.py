@@ -1,3 +1,4 @@
+from password import Password
 from pwdfile import Pwdfile
 
 
@@ -11,10 +12,13 @@ class Credentials:
     def read_cred(self, service):
         return self.creds[service]
 
-    def create_cred(self, service, username, password):
+    def create_cred(self, service, username, password=None):
+        if password is None:
+            password = Password.generate(mn=64)
+
         new_entry = {
             "username": username,
-            "password": password
+            "password": Password().encrypt(password)
         }
         self.creds[service] = new_entry
         Pwdfile().write(self.creds)
@@ -24,7 +28,7 @@ class Credentials:
         if username is None and password is not None:
             self.creds[service] = {
                 "username": current_entry["username"],
-                "password": password
+                "password": Password().encrypt(password)
             }
         elif username is not None and password is None:
             self.creds[service] = {
