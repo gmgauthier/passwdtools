@@ -4,13 +4,13 @@ import json
 
 class Pwdfile:
     def __init__(self):
-        self.keysfile = Config().get_pwdfilename()
+        self.pwdsfile = Config().get_pwdfilename()
 
     def read(self):
-        with open(self.keysfile, mode="r") as keydata:
-            return json.load(keydata)
+        with open(self.pwdsfile, mode="r") as pwddata:
+            return json.load(pwddata)
 
     def write(self, keys):
-        with open(self.keysfile, mode="w") as keydata:
-            keydata.write(json.dumps(keys))
+        with open(self.pwdsfile, mode="w") as pwddata:
+            pwddata.write(json.dumps(keys))
 
