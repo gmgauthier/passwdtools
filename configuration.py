@@ -3,6 +3,7 @@ import json
 
 class Config:
     def __init__(self):
+        self.cfg_file = '/Volumes/GMGAUTHIER/keys/pwdtools/config.json'
         self.data = self.read()
 
     def get_pwdfilename(self):
@@ -19,12 +20,10 @@ class Config:
         self.data["secret"] = secret
         self.write(self.data)
 
-    @staticmethod
-    def read():
-        with open('cfg/config.json', mode="r") as cfgfile:
+    def read(self):
+        with open(self.cfg_file, mode="r") as cfgfile:
             return json.load(cfgfile)
 
-    @staticmethod
-    def write(keys):
-        with open('cfg/config.json', mode="w") as cfgfile:
+    def write(self, keys):
+        with open(self.cfg_file, mode="w") as cfgfile:
             cfgfile.write(json.dumps(keys))
